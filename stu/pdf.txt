@@ -1,0 +1,134 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.31 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use pdf
+Database changed
+mysql> create table Student(id int(5)not null,name varchar(100)not null,Email varchar(100),contact int(10),sal in(10));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'in(10))' at line 1
+mysql> create table Student(id int(5)not null,name varchar(100)not null,Email varchar(100),contact int(10),sal int(10));
+ERROR 1050 (42S01): Table 'student' already exists
+mysql> drop student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'student' at line 1
+mysql> drop table Student;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table Student(id int(5)not null,name varchar(100)not null,Email varchar(100),contact varchar(10),sal varchar(100));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> desc student;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| id      | int          | NO   |     | NULL    |       |
+| name    | varchar(100) | NO   |     | NULL    |       |
+| Email   | varchar(100) | YES  |     | NULL    |       |
+| contact | varchar(10)  | YES  |     | NULL    |       |
+| sal     | varchar(100) | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> alter table student add column(Address varchar(100));
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| id      | int          | NO   |     | NULL    |       |
+| name    | varchar(100) | NO   |     | NULL    |       |
+| Email   | varchar(100) | YES  |     | NULL    |       |
+| contact | varchar(10)  | YES  |     | NULL    |       |
+| sal     | varchar(100) | YES  |     | NULL    |       |
+| Address | varchar(100) | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that correspond
+mysql> alter table student add column(Designation varchar(100),Adharno varchar(100),panno varchar(100));
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| id          | int          | NO   |     | NULL    |       |
+| name        | varchar(100) | NO   |     | NULL    |       |
+| Email       | varchar(100) | YES  |     | NULL    |       |
+| contact     | varchar(10)  | YES  |     | NULL    |       |
+| sal         | varchar(100) | YES  |     | NULL    |       |
+| Address     | varchar(100) | YES  |     | NULL    |       |
+| Designation | varchar(100) | YES  |     | NULL    |       |
+| Adharno     | varchar(100) | YES  |     | NULL    |       |
+| panno       | varchar(100) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+mysql> insert id,name,contact from student(1,"asd","892762255");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',name,contact from student(1,"asd","892762255")' at line 1
+mysql> insert into student id ,name,sal values(1,"asd","892762255");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id ,name,sal values(1,"asd","892762255")' at line 1
+mysql> insert into student (id ,name,sal) values(1,"asd","892762255");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student (id ,name,sal) values(2,"mno","892767865");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student (id ,name,sal) values(3,"pol","886567865");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student (id ,name,sal) values(4,"opol","88656000");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select distinct name from student;
++------+
+| name |
++------+
+| asd  |
+| mno  |
+| pol  |
+| opol |
++------+
+4 rows in set (0.00 sec)
+
+mysql> delete from student where id=1 && name="Ram";
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> select *from student;
++----+------+-------+---------+-----------+---------+-------------+---------+-------+
+| id | name | Email | contact | sal       | Address | Designation | Adharno | panno |
++----+------+-------+---------+-----------+---------+-------------+---------+-------+
+|  1 | asd  | NULL  | NULL    | 892762255 | NULL    | NULL        | NULL    | NULL  |
+|  2 | mno  | NULL  | NULL    | 892767865 | NULL    | NULL        | NULL    | NULL  |
+|  3 | pol  | NULL  | NULL    | 886567865 | NULL    | NULL        | NULL    | NULL  |
+|  4 | opol | NULL  | NULL    | 88656000  | NULL    | NULL        | NULL    | NULL  |
++----+------+-------+---------+-----------+---------+-------------+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> update student set name="RAM" ,Email="ram@gmail.com" where id=1;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select *from student;
++----+------+---------------+---------+-----------+---------+-------------+---------+-------+
+| id | name | Email         | contact | sal       | Address | Designation | Adharno | panno |
++----+------+---------------+---------+-----------+---------+-------------+---------+-------+
+|  1 | RAM  | ram@gmail.com | NULL    | 892762255 | NULL    | NULL        | NULL    | NULL  |
+|  2 | mno  | NULL          | NULL    | 892767865 | NULL    | NULL        | NULL    | NULL  |
+|  3 | pol  | NULL          | NULL    | 886567865 | NULL    | NULL        | NULL    | NULL  |
+|  4 | opol | NULL          | NULL    | 88656000  | NULL    | NULL        | NULL    | NULL  |
++----+------+---------------+---------+-----------+---------+-------------+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql>

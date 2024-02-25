@@ -1,0 +1,203 @@
+ use jully;
+Database changed
+create table city1(cityid int(5)primary key,cityname varchar(100));
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+ insert into city1 value(1,'PUNE');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into city1 value(2,'NASHIK');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into city1 value(3,'Mumbai');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from city1;
++--------+----------+
+| cityid | cityname |
++--------+----------+
+|      1 | PUNE     |
+|      2 | NASHIK   |
+|      3 | Mumbai   |
++--------+----------+
+3 rows in set (0.00 sec)
+ create table customercit(cid int(10)primary key,name varchar(200)not null,email varchar(200)not null unique,contact varchar(100)not null unique);
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> insert into customercit value(1,'ram','ram12@gmail.com','537786');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customercit value(2,'shyam','shyam12@gmail.com','53778672');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customercit value(3,'dinesh','dinesh12@gmail.com','79978672');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customercit value(4,'rajesh','rajesh12@gmail.com','799788989');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customercit value(5,'sandeep','sandeep12@gmail.com','7991289');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customercit value(6,'sangram','sangram12@gmail.com','799134289');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from customercit;
++-----+---------+---------------------+-----------+
+| cid | name    | email               | contact   |
++-----+---------+---------------------+-----------+
+|   1 | ram     | ram12@gmail.com     | 537786    |
+|   2 | shyam   | shyam12@gmail.com   | 53778672  |
+|   3 | dinesh  | dinesh12@gmail.com  | 79978672  |
+|   4 | rajesh  | rajesh12@gmail.com  | 799788989 |
+|   5 | sandeep | sandeep12@gmail.com | 7991289   |
+|   6 | sangram | sangram12@gmail.com | 799134289 |
++-----+---------+---------------------+-----------+
+6 rows in set (0.00 sec)
+create table citycustjoin(cityid int(5),foreign key(cityid) references city1(cityid),cid int(5),foreign key(cid) references customercit(cid));
+Query OK, 0 rows affected, 2 warnings (0.03 sec)
+
+mysql> insert into citycustjoin value(1,1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into citycustjoin value(1,2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into citycustjoin value(2,1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into citycustjoin value(2,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into citycustjoin value(3,3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into citycustjoin value(4,4);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`jully`.`citycustjoin`, CONSTRAINT `citycustjoin_ibfk_1` FOREIGN KEY (`cityid`) REFERENCES `city1` (`cityid`))
+mysql> insert into citycustjoin value(5,3);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`jully`.`citycustjoin`, CONSTRAINT `citycustjoin_ibfk_1` FOREIGN KEY (`cityid`) REFERENCES `city1` (`cityid`))
+mysql> insert into citycustjoin value(3,5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into citycustjoin value(2,5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from citycustjoin;
++--------+------+
+| cityid | cid  |
++--------+------+
+|      1 |    1 |
+|      1 |    2 |
+|      2 |    1 |
+|      2 |    2 |
+|      3 |    3 |
+|      3 |    5 |
+|      2 |    5 |
++--------+------+
+7 rows in set (0.00 sec)
+
+mysql> select *from city1;
++--------+----------+
+| cityid | cityname |
++--------+----------+
+|      1 | PUNE     |
+|      2 | NASHIK   |
+|      3 | Mumbai   |
++--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select *from customercit;
++-----+---------+---------------------+-----------+
+| cid | name    | email               | contact   |
++-----+---------+---------------------+-----------+
+|   1 | ram     | ram12@gmail.com     | 537786    |
+|   2 | shyam   | shyam12@gmail.com   | 53778672  |
+|   3 | dinesh  | dinesh12@gmail.com  | 79978672  |
+|   4 | rajesh  | rajesh12@gmail.com  | 799788989 |
+|   5 | sandeep | sandeep12@gmail.com | 7991289   |
+|   6 | sangram | sangram12@gmail.com | 799134289 |
++-----+---------+---------------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select *from customercit where cityname='PUNE';
+ERROR 1054 (42S22): Unknown column 'cityname' in 'where clause'
+mysql> select *from city1 where cityname='PUNE';
++--------+----------+
+| cityid | cityname |
++--------+----------+
+|      1 | PUNE     |
++--------+----------+
+1 row in set (0.00 sec)
+
+mysql> select *from customercit where name like'%__';
++-----+---------+---------------------+-----------+
+| cid | name    | email               | contact   |
++-----+---------+---------------------+-----------+
+|   1 | ram     | ram12@gmail.com     | 537786    |
+|   2 | shyam   | shyam12@gmail.com   | 53778672  |
+|   3 | dinesh  | dinesh12@gmail.com  | 79978672  |
+|   4 | rajesh  | rajesh12@gmail.com  | 799788989 |
+|   5 | sandeep | sandeep12@gmail.com | 7991289   |
+|   6 | sangram | sangram12@gmail.com | 799134289 |
++-----+---------+---------------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select *from  citycustjoin where cityid='1';
++--------+------+
+| cityid | cid  |
++--------+------+
+|      1 |    1 |
+|      1 |    2 |
++--------+------+
+2 rows in set (0.01 sec)
+
+mysql> select *from  customercit cid='1'||cid='2';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='1'||cid='2'' at line 1
+mysql> select *from  customercit cid='1'&&cid='2';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='1'&&cid='2'' at line 1
+mysql> select *from  customercit cid='1';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='1'' at line 1
+mysql> select *from  customercit where cid='1'||cid='2';
++-----+-------+-------------------+----------+
+| cid | name  | email             | contact  |
++-----+-------+-------------------+----------+
+|   1 | ram   | ram12@gmail.com   | 537786   |
+|   2 | shyam | shyam12@gmail.com | 53778672 |
++-----+-------+-------------------+----------+
+2 rows in set, 1 warning (0.00 sec)
+ select c1.cityname,cu.cid,cu.name,cu.email,cu.contact from city1 c1 inner join citycustjoin csj on c1.cityid=csj.cityid inner join customercit cu on csj.cid=cu.cid where cityname='pune';
++----------+-----+-------+-------------------+----------+
+| cityname | cid | name  | email             | contact  |
++----------+-----+-------+-------------------+----------+
+| PUNE     |   1 | ram   | ram12@gmail.com   | 537786   |
+| PUNE     |   2 | shyam | shyam12@gmail.com | 53778672 |
++----------+-----+-------+-------------------+----------+
+2 rows in set (0.00 sec)
+ select c1.cityname,count(csj.cityid)as customer_count from city1 c1 inner join citycustjoin csj on c1.cityid=csj.cityid inner join customercit cu on csj.cid=cu.cid group by (c1.cityname);
++----------+----------------+
+| cityname | customer_count |
++----------+----------------+
+| PUNE     |              2 |
+| NASHIK   |              3 |
+| Mumbai   |              2 |
++----------+----------------+
+ select c1.cityname,count(csj.cityid)as customer_count from city1 c1 inner join citycustjoin csj on c1.cityid=csj.cityid inner join customercit cu on csj.cid=cu.cid group by (c1.cityname) having count(csj.cityid)>2;
++----------+----------------+
+| cityname | customer_count |
++----------+----------------+
+| NASHIK   |              3 |
++----------+----------------+
+1 row in set (0.00 sec)
+ select c.name,count(cs.cityid)as customer_count from city1 ci inner join citycustjoin cs on ci.cityid=cs.cityid inner join customercit c on cs.cid=c.cid group by (c.name) having count(cs.cityid)>1;
++---------+----------------+
+| name    | customer_count |
++---------+----------------+
+| ram     |              2 |
+| shyam   |              2 |
+| sandeep |              2 |
++---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select c.name,count(cs.cityid)as customer_count from city1 ci inner join citycustjoin cs on ci.cityid=cs.cityid inner join customercit c on cs.cid=c.cid group by (c.name) having count(cs.cityid)<1;
+Empty set (0.00 sec)
+ select c.name,count(c.name)as customer_count from city1 ci inner join citycustjoin cs on ci.cityid=cs.cityid inner join customercit c on cs.cid=c.cid group by (c.name) having count(c.name)<1;
+Empty set (0.00 sec)

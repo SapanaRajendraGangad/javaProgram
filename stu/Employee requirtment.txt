@@ -1,0 +1,295 @@
+ create table emp(id int(5),fname varchar(100),lname varchar(100),email varchar(50),contact int(10),date int(10),jobid varchar(200),sal int(10));
+Query OK, 0 rows affected, 4 warnings (0.02 sec)
+
+mysql> insert into emp(100,'Ram','Kadam','ram@gmail.com',12345,2022-6-7,'dev',45000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '100,'Ram','Kadam','ram@gmail.com',12345,2022-6-7,'dev',45000)' at line 1
+mysql> insert into emp value(100,'Ram','Kadam','ram@gmail.com',12345,2022-6-7,'dev',45000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp value(100,'Shyam','Shejole','shyam@gmail.com',12485,2023-2-5,'dev',80000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp value(102,'Priya','patil','priya@gmail.com',909485,2020-9-4,'prog',50000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp value(103,'Sima','Sharma','sima12@gmail.com',909423,2018-5-12,'ui',40000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp value(104,'karan','Varma','karan12@gmail.com',909414,2024-1-2,'prog',35000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp value(105,'Mohit','Shrivastav','mohit12@gmail.com',9094014,2017-5-23,'Accountant',45000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp value(106,'Riya','Bhosle','riya12@gmail.com',9094089,2015-8-21,'Manager',90000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from emp;
++------+-------+------------+-------------------+---------+------+------------+-------+
+| id   | fname | lname      | email             | contact | date | jobid      | sal   |
++------+-------+------------+-------------------+---------+------+------------+-------+
+|  100 | Ram   | Kadam      | ram@gmail.com     |   12345 | 2009 | dev        | 45000 |
+|  100 | Shyam | Shejole    | shyam@gmail.com   |   12485 | 2016 | dev        | 80000 |
+|  102 | Priya | patil      | priya@gmail.com   |  909485 | 2007 | prog       | 50000 |
+|  103 | Sima  | Sharma     | sima12@gmail.com  |  909423 | 2001 | ui         | 40000 |
+|  104 | karan | Varma      | karan12@gmail.com |  909414 | 2021 | prog       | 35000 |
+|  105 | Mohit | Shrivastav | mohit12@gmail.com | 9094014 | 1989 | Accountant | 45000 |
+|  106 | Riya  | Bhosle     | riya12@gmail.com  | 9094089 | 1986 | Manager    | 90000 |
++------+-------+------------+-------------------+---------+------+------------+-------+
+7 rows in set (0.00 sec)
+
+mysql> select count(jobid)from emp;
++--------------+
+| count(jobid) |
++--------------+
+|            7 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(sal)from emp;
++----------+
+| sum(sal) |
++----------+
+|   385000 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select min(sal)from emp;
++----------+
+| min(sal) |
++----------+
+|    35000 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select max(sal)from emp;
++----------+
+| max(sal) |
++----------+
+|    90000 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select avg(sal)from emp;
++------------+
+| avg(sal)   |
++------------+
+| 55000.0000 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select min(sal),max(sal,sum(sal),avg(sal)from emp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',sum(sal),avg(sal)from emp' at line 1
+mysql> select min(sal),max(sal),sum(sal),avg(sal)from emp;
++----------+----------+----------+------------+
+| min(sal) | max(sal) | sum(sal) | avg(sal)   |
++----------+----------+----------+------------+
+|    35000 |    90000 |   385000 | 55000.0000 |
++----------+----------+----------+------------+
+1 row in set (0.00 sec)
+
+mysql> select jobid from emp group by jobid;
++------------+
+| jobid      |
++------------+
+| dev        |
+| prog       |
+| ui         |
+| Accountant |
+| Manager    |
++------------+
+5 rows in set (0.00 sec)
+
+mysql> select jobid,jobid(count) from emp group by jobid;
+ERROR 1305 (42000): FUNCTION jully.jobid does not exist
+mysql> select jobid,count(jobid) from emp group by jobid;
++------------+--------------+
+| jobid      | count(jobid) |
++------------+--------------+
+| dev        |            2 |
+| prog       |            2 |
+| ui         |            1 |
+| Accountant |            1 |
+| Manager    |            1 |
++------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select jobid,count(jobid) from emp group by jobid having (count)>1;
+ERROR 1054 (42S22): Unknown column 'count' in 'having clause'
+mysql> select jobid,count(jobid) from emp group by jobid having jobid(count)>1;
+ERROR 1305 (42000): FUNCTION jully.jobid does not exist
+mysql> select jobid,count(jobid) from emp group by jobid having count(jobid)>1;
++-------+--------------+
+| jobid | count(jobid) |
++-------+--------------+
+| dev   |            2 |
+| prog  |            2 |
++-------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select min(sal),max(sal)from emp where max-min;
+ERROR 1054 (42S22): Unknown column 'max' in 'where clause'
+mysql> select min(sal),max(sal)from emp group by sal having max-min;
+ERROR 1054 (42S22): Unknown column 'max' in 'having clause'
+mysql> select min(sal),max(sal)from emp group by sal having max(sal)-min(sal);
+Empty set (0.00 sec)
+
+mysql> select min(sal),max(sal)from emp;
++----------+----------+
+| min(sal) | max(sal) |
++----------+----------+
+|    35000 |    90000 |
++----------+----------+
+1 row in set (0.00 sec)
+
+mysql> select min(sal),max(sal)from emp group by sal having max(sal)-min(sal);
+Empty set (0.00 sec)
+
+mysql> select min(sal)-max(sal)DIFFERANCE from emp;
++------------+
+| DIFFERANCE |
++------------+
+|     -55000 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select max(sal)-min(sal)DIFFERANCE from emp;
++------------+
+| DIFFERANCE |
++------------+
+|      55000 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select jobid,count(jobid) from emp group by jobid;
++------------+--------------+
+| jobid      | count(jobid) |
++------------+--------------+
+| dev        |            2 |
+| prog       |            2 |
+| ui         |            1 |
+| Accountant |            1 |
+| Manager    |            1 |
++------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select jobid,count(jobid) from emp group by jobid having sum(sal);
++------------+--------------+
+| jobid      | count(jobid) |
++------------+--------------+
+| dev        |            2 |
+| prog       |            2 |
+| ui         |            1 |
+| Accountant |            1 |
+| Manager    |            1 |
++------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select jobid,count(jobid),sum(sal) from emp group by jobid having sum(sal);
++------------+--------------+----------+
+| jobid      | count(jobid) | sum(sal) |
++------------+--------------+----------+
+| dev        |            2 |   125000 |
+| prog       |            2 |    85000 |
+| ui         |            1 |    40000 |
+| Accountant |            1 |    45000 |
+| Manager    |            1 |    90000 |
++------------+--------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select jobid,count(jobid),sum(sal),avg(sum) from emp where sum(sal) group by jobid having avg(sum);
+ERROR 1054 (42S22): Unknown column 'sum' in 'field list'
+mysql> select jobid,count(jobid),avg(sal) from emp group by jobid;
++------------+--------------+------------+
+| jobid      | count(jobid) | avg(sal)   |
++------------+--------------+------------+
+| dev        |            2 | 62500.0000 |
+| prog       |            2 | 42500.0000 |
+| ui         |            1 | 40000.0000 |
+| Accountant |            1 | 45000.0000 |
+| Manager    |            1 | 90000.0000 |
++------------+--------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select (fname,lname,jobid)from emp where sal>30000 && sal<90000 order by jobid desc;
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> select fname,lname,jobid from emp where sal>30000 && sal<90000 order by jobid desc;
++-------+------------+------------+
+| fname | lname      | jobid      |
++-------+------------+------------+
+| Sima  | Sharma     | ui         |
+| Priya | patil      | prog       |
+| karan | Varma      | prog       |
+| Ram   | Kadam      | dev        |
+| Shyam | Shejole    | dev        |
+| Mohit | Shrivastav | Accountant |
++-------+------------+------------+
+6 rows in set, 1 warning (0.00 sec)
+
+mysql> select fname,lname,date,jobid,sal from emp where date>2017 && date<2024;
++-------+-------+------+-------+-------+
+| fname | lname | date | jobid | sal   |
++-------+-------+------+-------+-------+
+| karan | Varma | 2021 | prog  | 35000 |
++-------+-------+------+-------+-------+
+1 row in set, 1 warning (0.00 sec)
+mysql> select *from emp where fname like  's%' || fname like 'r%';
++------+-------+---------+------------------+---------+------+---------+-------+
+| id   | fname | lname   | email            | contact | date | jobid   | sal   |
++------+-------+---------+------------------+---------+------+---------+-------+
+|  100 | Ram   | Kadam   | ram@gmail.com    |   12345 | 2009 | dev     | 45000 |
+|  100 | Shyam | Shejole | shyam@gmail.com  |   12485 | 2016 | dev     | 80000 |
+|  103 | Sima  | Sharma  | sima12@gmail.com |  909423 | 2001 | ui      | 40000 |
+|  106 | Riya  | Bhosle  | riya12@gmail.com | 9094089 | 1986 | Manager | 90000 |
++------+-------+---------+------------------+---------+------+---------+-------+
+4 rows in set, 1 warning (0.00 sec)
+
+mysql> select *from emp where sal!=4000 && sal!=80000 && sal!=35000;
++------+-------+------------+-------------------+---------+------+------------+-------+
+| id   | fname | lname      | email             | contact | date | jobid      | sal   |
++------+-------+------------+-------------------+---------+------+------------+-------+
+|  100 | Ram   | Kadam      | ram@gmail.com     |   12345 | 2009 | dev        | 45000 |
+|  102 | Priya | patil      | priya@gmail.com   |  909485 | 2007 | prog       | 50000 |
+|  103 | Sima  | Sharma     | sima12@gmail.com  |  909423 | 2001 | ui         | 40000 |
+|  105 | Mohit | Shrivastav | mohit12@gmail.com | 9094014 | 1989 | Accountant | 45000 |
+|  106 | Riya  | Bhosle     | riya12@gmail.com  | 9094089 | 1986 | Manager    | 90000 |
++------+-------+------------+-------------------+---------+------+------------+-------+
+5 rows in set, 2 warnings (0.00 sec)
+select *from emp where lname like '_____';
++------+-------+-------+-------------------+---------+------+-------+-------+
+| id   | fname | lname | email             | contact | date | jobid | sal   |
++------+-------+-------+-------------------+---------+------+-------+-------+
+|  100 | Ram   | Kadam | ram@gmail.com     |   12345 | 2009 | dev   | 45000 |
+|  102 | Priya | patil | priya@gmail.com   |  909485 | 2007 | prog  | 50000 |
+|  104 | karan | Varma | karan12@gmail.com |  909414 | 2021 | prog  | 35000 |
++------+-------+-------+-------------------+---------+------+-------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select *from emp where lname like '__y%'&& fname like '__y%';
+Empty set, 1 warning (0.00 sec)
+select fname,lname,jobid,sal*0.5 from emp;
++-------+------------+------------+---------+
+| fname | lname      | jobid      | sal*0.5 |
++-------+------------+------------+---------+
+| Ram   | Kadam      | dev        | 22500.0 |
+| Shyam | Shejole    | dev        | 40000.0 |
+| Priya | patil      | prog       | 25000.0 |
+| Sima  | Sharma     | ui         | 20000.0 |
+| karan | Varma      | prog       | 17500.0 |
+| Mohit | Shrivastav | Accountant | 22500.0 |
+| Riya  | Bhosle     | Manager    | 45000.0 |
++-------+------------+------------+---------+
+7 rows in set (0.00 sec)
+select fname,lname,jobid,sal*0.5 as PF from emp;
++-------+------------+------------+---------+
+| fname | lname      | jobid      | PF      |
++-------+------------+------------+---------+
+| Ram   | Kadam      | dev        | 22500.0 |
+| Shyam | Shejole    | dev        | 40000.0 |
+| Priya | patil      | prog       | 25000.0 |
+| Sima  | Sharma     | ui         | 20000.0 |
+| karan | Varma      | prog       | 17500.0 |
+| Mohit | Shrivastav | Accountant | 22500.0 |
+| Riya  | Bhosle     | Manager    | 45000.0 |
++-------+------------+------------+---------+
+7 rows in set (0.00 sec)

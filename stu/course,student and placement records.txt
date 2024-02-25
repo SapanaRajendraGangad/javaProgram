@@ -1,0 +1,180 @@
+select *from course;
++-----+------+-------+
+| cid | name | fees  |
++-----+------+-------+
+|   1 | JAVA | 26000 |
+|   2 | PHP  | 26000 |
+|   3 | .NET | 26000 |
++-----+------+-------+
+ select *from student;
++-----+------+---------------+---------+---------+
+| sid | name | email         | contact | address |
++-----+------+---------------+---------+---------+
+|   1 | Ram  | ram@gmail.com | 123456  | PUNE    |
++-----+------+---------------+---------+---------+
+1 row in set (0.00 sec)
+
+mysql> insert into student value(2,'Shyam','shyam@gmail.com','123980','Nashik');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student value(3,'dinesh','dinesh@gmail.com','54123980','Mumbai');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from student;
++-----+--------+------------------+----------+---------+
+| sid | name   | email            | contact  | address |
++-----+--------+------------------+----------+---------+
+|   1 | Ram    | ram@gmail.com    | 123456   | PUNE    |
+|   2 | Shyam  | shyam@gmail.com  | 123980   | Nashik  |
+|   3 | dinesh | dinesh@gmail.com | 54123980 | Mumbai  |
++-----+--------+------------------+----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> create table placement(pid int(5)primary key auto_increament,compname varchar(200)not null,package int(5)not null,pdate date not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'auto_increament,compname varchar(200)not null,package int(5)not null,pdate date ' at line 1
+mysql> create table placement(pid int(5)primary key auto_increment,compname varchar(200)not null,package int(5)not null,pdate date not null);
+Query OK, 0 rows affected, 2 warnings (0.02 sec)
+
+mysql> insert into placement value(1,'TCS',360000,'01/01/2020');
+ERROR 1292 (22007): Incorrect date value: '01/01/2020' for column 'pdate' at row 1
+mysql> insert into placement value(1,'TCS',360000,'2020/01/01');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into placement value(2,'Infosys',360000,'2020/01/02');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select *from placement;
++-----+----------+---------+------------+
+| pid | compname | package | pdate      |
++-----+----------+---------+------------+
+|   1 | TCS      |  360000 | 2020-01-01 |
+|   2 | Infosys  |  360000 | 2020-01-02 |
++-----+----------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql> create table csjoin(sid int(5),foreign key(sid) references student(sid),cid int(5),foreign key(cid) references course(cid),pid int(5),foreign key(pid) references placement(pid);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table csjoin(sid int(5),foreign key(sid) references student(sid),cid int(5),foreign key(cid) references course(cid),pid int(5),foreign key(pid) references placement(pid));
+Query OK, 0 rows affected, 3 warnings (0.03 sec)
+
+mysql> insert into csjoin value(1,1,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into csjoin value(2,1,2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into csjoin value(1,2,1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into csjoin value(2,2,2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from csjoin;
++------+------+------+
+| sid  | cid  | pid  |
++------+------+------+
+|    1 |    1 |    1 |
+|    2 |    1 |    2 |
+|    1 |    2 |    1 |
+|    2 |    2 |    2 |
++------+------+------+
+4 rows in set (0.00 sec)
+
+mysql> select name from course;
++------+
+| name |
++------+
+| .NET |
+| JAVA |
+| PHP  |
++------+
+3 rows in set (0.00 sec)
+
+mysql> select name,fees from course where fees>10000;
++------+-------+
+| name | fees  |
++------+-------+
+| JAVA | 26000 |
+| PHP  | 26000 |
+| .NET | 26000 |
++------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select *from course where fees in(10000,20000,30000,40000);
+Empty set (0.00 sec)
+
+mysql> select *from course where name like 'j%'and'%a';
+Empty set, 1 warning (0.00 sec)
+
+mysql> select *from course where name like 'j%a';
++-----+------+-------+
+| cid | name | fees  |
++-----+------+-------+
+|   1 | JAVA | 26000 |
++-----+------+-------+
+1 row in set (0.00 sec)
+
+mysql> select *from course where name like '___';
++-----+------+-------+
+| cid | name | fees  |
++-----+------+-------+
+|   2 | PHP  | 26000 |
++-----+------+-------+
+1 row in set (0.00 sec)
+
+mysql> select *from course where name like '___%';
++-----+------+-------+
+| cid | name | fees  |
++-----+------+-------+
+|   1 | JAVA | 26000 |
+|   2 | PHP  | 26000 |
+|   3 | .NET | 26000 |
++-----+------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select s.name,c.name from student s inner join csjoin csjoin cs on s.sid=cs.sid inner join course c on cs.cid=c.cid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'cs on s.sid=cs.sid inner join course c on cs.cid=c.cid' at line 1
+mysql> select s.name,c.name from student s inner join cs on s.sid=cs.sid inner join course c on cs.cid=c.cid;
+ERROR 1146 (42S02): Table 'jully.cs' doesn't exist
+mysql> select s.name,c.name from student s inner join csjoin cs on s.sid=cs.sid inner join course c on cs.cid=c.cid;
++-------+------+
+| name  | name |
++-------+------+
+| Ram   | PHP  |
+| Ram   | JAVA |
+| Shyam | PHP  |
+| Shyam | JAVA |
++-------+------+
+4 rows in set (0.00 sec)
+
+mysql> select c.name as 'course name',count(cs.cid) as 'student count' from student s inner join csjoin cs on s.sid=cs.sid inner join course c on cs.cid=c.cid group by(cs.cid);
++-------------+---------------+
+| course name | student count |
++-------------+---------------+
+| JAVA        |             2 |
+| PHP         |             2 |
++-------------+---------------+
+2 rows in set (0.00 sec)
+ select c.name as 'course name',count(cs.cid) as 'student count' from student s right join csjoin cs on s.sid=cs.sid right join course c on cs.cid=c.cid group by(c.name) having count(cs.cid)<1;
++-------------+---------------+
+| course name | student count |
++-------------+---------------+
+| .NET        |             0 |
++-------------+---------------+
+1 row in set (0.00 sec)
+select s.name,max(package) from student s inner join csjoin cs on s.sid=cs.sid inner join placement p on cs.pid=p.pid  group by s.name;
++-------+--------------+
+| name  | max(package) |
++-------+--------------+
+| Ram   |       360000 |
+| Shyam |       360000 |
++-------+--------------+
+2 rows in set (0.00 sec)
+select s.name,min(package) from student s inner join csjoin cs on s.sid=cs.sid inner join placement p on cs.pid=p.pid  group by s.name;
++-------+--------------+
+| name  | min(package) |
++-------+--------------+
+| Ram   |       360000 |
+| Shyam |       360000 |
++-------+--------------+
+2 rows in set (0.00 sec)

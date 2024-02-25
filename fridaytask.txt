@@ -1,0 +1,220 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.31 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use pdf
+Database changed
+mysql> select *from emp;
++------+-------+------------+----------+--------+
+| id   | name  | email      | contact  | salary |
++------+-------+------------+----------+--------+
+|    1 | Ram   | ram@gmail  | 64353383 | 8907   |
+|    2 | Shyam | Shym@gmail | 64643783 | 82347  |
+|    3 | nbc   | msa@gmail  | 67632783 | 34347  |
+|    4 | jkl   | jkl@gmail  | 2375244  | 84437  |
++------+-------+------------+----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> insert into emp values(5,"fgh","fgh@gmail","3577852","82347");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp values(6,"rty","nbv@gmail","3557691","8907");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp values(7,"cng","cng@gmail","35581668","34347");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select count(salary) as 'salary' from emp group by salary;
++--------+
+| salary |
++--------+
+|      2 |
+|      2 |
+|      2 |
+|      1 |
++--------+
+4 rows in set, 1 warning (0.00 sec)
+
+mysql> select salary,count(salary) as 'salary' from emp group by salary;
++--------+--------+
+| salary | salary |
++--------+--------+
+| 8907   |      2 |
+| 82347  |      2 |
+| 34347  |      2 |
+| 84437  |      1 |
++--------+--------+
+4 rows in set, 1 warning (0.00 sec)
+
+mysql> select name,salary,count(salary) as 'salary' from emp group by salary,name;
++-------+--------+--------+
+| name  | salary | salary |
++-------+--------+--------+
+| Ram   | 8907   |      1 |
+| Shyam | 82347  |      1 |
+| nbc   | 34347  |      1 |
+| jkl   | 84437  |      1 |
+| fgh   | 82347  |      1 |
+| rty   | 8907   |      1 |
+| cng   | 34347  |      1 |
++-------+--------+--------+
+7 rows in set, 1 warning (0.00 sec)
+
+mysql> select count(salary)from emp where salary>10000 group by salary order by salary asc;
++---------------+
+| count(salary) |
++---------------+
+|             2 |
+|             2 |
+|             1 |
++---------------+
+3 rows in set (0.00 sec)
+
+mysql> select salary,count(salary)from emp where salary>10000 group by salary order by salary asc;
++--------+---------------+
+| salary | count(salary) |
++--------+---------------+
+| 34347  |             2 |
+| 82347  |             2 |
+| 84437  |             1 |
++--------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> select count(name) as 'name' from emp group by name;
++------+
+| name |
++------+
+|    1 |
+|    1 |
+|    1 |
+|    1 |
+|    1 |
+|    1 |
+|    1 |
++------+
+7 rows in set, 1 warning (0.00 sec)
+
+mysql> select name,count(name) as 'name' from emp group by name;
++-------+------+
+| name  | name |
++-------+------+
+| Ram   |    1 |
+| Shyam |    1 |
+| nbc   |    1 |
+| jkl   |    1 |
+| fgh   |    1 |
+| rty   |    1 |
+| cng   |    1 |
++-------+------+
+7 rows in set, 1 warning (0.00 sec)
+
+mysql> select name,count(name) from emp where name="ram" group by name having count(name)>1;
+Empty set (0.00 sec)
+
+mysql> select *from emp where "%sh" and salary>20000;
+Empty set, 1 warning (0.00 sec)
+
+mysql> select *from emp where "%gh" and salary>20000;
+Empty set, 1 warning (0.00 sec)
+
+mysql> select *from emp where "%am" and salary>20000;
+Empty set, 1 warning (0.00 sec)
+
+mysql> select *from emp where name like "%am" and salary>20000;
++------+-------+------------+----------+--------+
+| id   | name  | email      | contact  | salary |
++------+-------+------------+----------+--------+
+|    2 | Shyam | Shym@gmail | 64643783 | 82347  |
++------+-------+------------+----------+--------+
+1 row in set (0.00 sec)
+
+mysql> select *from emp where name like "%sh" and salary>20000;
+Empty set (0.00 sec)
+
+mysql> select *from emp where name like "%r%" and salary in(10000,20000,30000);
+Empty set (0.00 sec)
+
+mysql> select *from emp where name like "r" and salary in(10000,20000,30000);
+Empty set (0.00 sec)
+
+mysql> select *from emp where name like "%g%" and salary in(10000,20000,30000);
+Empty set (0.00 sec)
+
+mysql> select *from emp where name like "%r%";
++------+------+-----------+----------+--------+
+| id   | name | email     | contact  | salary |
++------+------+-----------+----------+--------+
+|    1 | Ram  | ram@gmail | 64353383 | 8907   |
+|    6 | rty  | nbv@gmail | 3557691  | 8907   |
++------+------+-----------+----------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select *from emp where name like "%r%" and salary in(10000,20000,30000);
+Empty set (0.00 sec)
+
+mysql> select *from emp where name like "%sh%" and salary between(10000 and 50000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select *from emp where name like "%sh%" and salary between 10000 and 50000;
+Empty set (0.00 sec)
+
+mysql> select *from emp where salary>10000 and name like "%r%";
+Empty set (0.00 sec)
+
+mysql> select count(name),salary from emp where salary>10000 and name like "%r%" having count(name)>1;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'pdf.emp.salary'; this is incompatible with sql_mode=only_full_group_by
+mysql> select count(name),salary from emp where salary>10000 and name like "%r%" group by name having count(name)>1;
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'pdf.emp.salary' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select count(name),salary from emp where salary>10000 and name like "%r%" group by name,salary having count(name)>1;
+Empty set (0.00 sec)
+
+mysql> insert into emp values(7,"jik","dfg@gmail","76547223","23456");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp values(8,"jik","dfg@gmail","90547223","23456");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select count(name),salary from emp where salary>10000 and name like "%r%" group by name,salary having count(name)>1;
+Empty set (0.00 sec)
+
+mysql> select *from emp;
++------+-------+------------+----------+--------+
+| id   | name  | email      | contact  | salary |
++------+-------+------------+----------+--------+
+|    1 | Ram   | ram@gmail  | 64353383 | 8907   |
+|    2 | Shyam | Shym@gmail | 64643783 | 82347  |
+|    3 | nbc   | msa@gmail  | 67632783 | 34347  |
+|    4 | jkl   | jkl@gmail  | 2375244  | 84437  |
+|    5 | fgh   | fgh@gmail  | 3577852  | 82347  |
+|    6 | rty   | nbv@gmail  | 3557691  | 8907   |
+|    7 | cng   | cng@gmail  | 35581668 | 34347  |
+|    7 | jik   | dfg@gmail  | 76547223 | 23456  |
+|    8 | jik   | dfg@gmail  | 90547223 | 23456  |
++------+-------+------------+----------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select count(name),salary from emp where salary>10000 and name like "%i%" group by name,salary having count(name)>1;
++-------------+--------+
+| count(name) | salary |
++-------------+--------+
+|           2 | 23456  |
++-------------+--------+
+1 row in set (0.00 sec)
+
+mysql> select name,count(name),salary from emp where salary>10000 and name like "%i%" group by name,salary having count(name)>1;
++------+-------------+--------+
+| name | count(name) | salary |
++------+-------------+--------+
+| jik  |           2 | 23456  |
++------+-------------+--------+
+1 row in set (0.00 sec)
+
+mysql>

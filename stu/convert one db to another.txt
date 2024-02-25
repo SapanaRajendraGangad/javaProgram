@@ -1,0 +1,80 @@
+ create table sanjay like student;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc sanjay;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| id          | int          | NO   |     | NULL    |       |
+| name        | varchar(100) | NO   |     | NULL    |       |
+| Email       | varchar(100) | YES  |     | NULL    |       |
+| contact     | varchar(10)  | YES  |     | NULL    |       |
+| sal         | varchar(100) | YES  |     | NULL    |       |
+| Address     | varchar(100) | YES  |     | NULL    |       |
+| Designation | varchar(100) | YES  |     | NULL    |       |
+| Adharno     | varchar(100) | YES  |     | NULL    |       |
+| panno       | varchar(100) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+mysql> select *from student;
++----+------+---------------+---------+-----------+---------+-------------+---------+-------+
+| id | name | Email         | contact | sal       | Address | Designation | Adharno | panno |
++----+------+---------------+---------+-----------+---------+-------------+---------+-------+
+|  1 | RAM  | ram@gmail.com | NULL    | 892762255 | NULL    | NULL        | NULL    | NULL  |
+|  2 | mno  | NULL          | NULL    | 892767865 | NULL    | NULL        | NULL    | NULL  |
+|  3 | pol  | NULL          | NULL    | 886567865 | NULL    | NULL        | NULL    | NULL  |
+|  4 | opol | NULL          | NULL    | 88656000  | NULL    | NULL        | NULL    | NULL  |
++----+------+---------------+---------+-----------+---------+-------------+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select *from sanjay;
+Empty set (0.00 sec)
+
+mysql> insert into sanjay from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from student' at line 1
+mysql> insert sanjay from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from student' at line 1
+mysql> insert sanjay values *from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*from student' at line 1
+mysql> insert sanjay  *from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*from student' at line 1
+mysql> insert sanjay  from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from student' at line 1
+mysql> insert into sanjay  select *from student;
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert sanjay  from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from student' at line 1
+mysql> insert into sanjay  select *from student;
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select *from sanjay;
++----+------+---------------+---------+-----------+---------+-------------+---------+-------+
+| id | name | Email         | contact | sal       | Address | Designation | Adharno | panno |
++----+------+---------------+---------+-----------+---------+-------------+---------+-------+
+|  1 | RAM  | ram@gmail.com | NULL    | 892762255 | NULL    | NULL        | NULL    | NULL  |
+|  2 | mno  | NULL          | NULL    | 892767865 | NULL    | NULL        | NULL    | NULL  |
+|  3 | pol  | NULL          | NULL    | 886567865 | NULL    | NULL        | NULL    | NULL  |
+|  4 | opol | NULL          | NULL    | 88656000  | NULL    | NULL        | NULL    | NULL  |
+|  1 | RAM  | ram@gmail.com | NULL    | 892762255 | NULL    | NULL        | NULL    | NULL  |
+|  2 | mno  | NULL          | NULL    | 892767865 | NULL    | NULL        | NULL    | NULL  |
+|  3 | pol  | NULL          | NULL    | 886567865 | NULL    | NULL        | NULL    | NULL  |
+|  4 | opol | NULL          | NULL    | 88656000  | NULL    | NULL        | NULL    | NULL  |
++----+------+---------------+---------+-----------+---------+-------------+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> select *from student;
++----+------+---------------+---------+-----------+---------+-------------+---------+-------+
+| id | name | Email         | contact | sal       | Address | Designation | Adharno | panno |
++----+------+---------------+---------+-----------+---------+-------------+---------+-------+
+|  1 | RAM  | ram@gmail.com | NULL    | 892762255 | NULL    | NULL        | NULL    | NULL  |
+|  2 | mno  | NULL          | NULL    | 892767865 | NULL    | NULL        | NULL    | NULL  |
+|  3 | pol  | NULL          | NULL    | 886567865 | NULL    | NULL        | NULL    | NULL  |
+|  4 | opol | NULL          | NULL    | 88656000  | NULL    | NULL        | NULL    | NULL  |
++----+------+---------------+---------+-----------+---------+-------------+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select *from student;

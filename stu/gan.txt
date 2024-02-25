@@ -1,0 +1,25 @@
+mysql> select count(*) from student s inner join csjoin cs on s.sid=cs.sid inner join placement p on cs.pid=p.pid where year( p.pdate)<=' 2020' ;
++----------+
+| count(*) |
++----------+
+|        4 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select count(*) from student s inner join csjoin cs on s.sid=cs.sid inner join placement p on cs.pid=p.pid where year( p.pdate)<=' 2023' ;
++----------+
+| count(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select count(*) from student s inner join csjoin cs on s.sid=cs.sid inner join placement p on cs.pid=p.pid where year( p.pdate)=' 2023' ;
++----------+
+| count(*) |
++----------+
+|        1 |
++----------+
+1 row in set (0.00 sec)
+
+mysql>

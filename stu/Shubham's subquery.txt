@@ -1,0 +1,84 @@
+ select *from emp1;
++-----+-------+--------+
+| eid | ename | Salary |
++-----+-------+--------+
+|   1 | A     |  34424 |
+|   2 | B     |  34424 |
+|   3 | C     |   1124 |
+|   4 | D     |  20000 |
+|   5 | E     |  50000 |
++-----+-------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select max(salary) from emp1;
++-------------+
+| max(salary) |
++-------------+
+|       50000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary) from emp1 where salary<(select max(salary) from emp1);
++-------------+
+| max(salary) |
++-------------+
+|       34424 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary) from emp1 where salary<(select max(salary) from emp1 where salary <(select max(salary) from emp1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select max(salary) from emp1 where salary<(select max(salary) from emp1 where salary <(select max(salary) from emp1));
++-------------+
+| max(salary) |
++-------------+
+|       20000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary) from emp1;
++-------------+
+| max(salary) |
++-------------+
+|       50000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select salary from emp1 order by salary desc;
++--------+
+| salary |
++--------+
+|  50000 |
+|  34424 |
+|  34424 |
+|  20000 |
+|   1124 |
++--------+
+5 rows in set (0.00 sec)
+
+mysql> select salary from emp1 order by salary desc limit 1,2;
++--------+
+| salary |
++--------+
+|  34424 |
+|  34424 |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> select salary from emp1 order by salary desc limit 0,3;
++--------+
+| salary |
++--------+
+|  50000 |
+|  34424 |
+|  34424 |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select salary from emp1 order by salary desc limit 3,1;
++--------+
+| salary |
++--------+
+|  20000 |
++--------+
+1 row in set (0.00 sec)

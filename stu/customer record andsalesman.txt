@@ -1,0 +1,101 @@
+create table customerbackup as select *from customer;
+Query OK, 5 rows affected (0.02 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> desc customerbackup;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| cid         | int          | YES  |     | NULL    |       |
+| cname       | varchar(100) | YES  |     | NULL    |       |
+| city        | varchar(100) | YES  |     | NULL    |       |
+| grade       | varchar(50)  | YES  |     | NULL    |       |
+| salesman_id | int          | YES  |     | NULL    |       |
+| points      | int          | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select *from customerbackup;
++------+--------+--------+-------+-------------+--------+
+| cid  | cname  | city   | grade | salesman_id | points |
++------+--------+--------+-------+-------------+--------+
+| 3001 | Vishal | pune   | A     |        5001 |    100 |
+| 3002 | Mohini | Mumbai | A     |        5005 |    200 |
+| 3003 | Rishab | Surat  | B     |        5002 |    200 |
+| 3004 | Sakshi | Kanpur | A     |        5006 |    300 |
+| 3005 | Kushal | Kerala | B     |        5003 |    100 |
++------+--------+--------+-------+-------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select *from customerbackup where(points)<200;
++------+--------+--------+-------+-------------+--------+
+| cid  | cname  | city   | grade | salesman_id | points |
++------+--------+--------+-------+-------------+--------+
+| 3001 | Vishal | pune   | A     |        5001 |    100 |
+| 3005 | Kushal | Kerala | B     |        5003 |    100 |
++------+--------+--------+-------+-------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select *from customerbackup where(points)>200;
++------+--------+--------+-------+-------------+--------+
+| cid  | cname  | city   | grade | salesman_id | points |
++------+--------+--------+-------+-------------+--------+
+| 3004 | Sakshi | Kanpur | A     |        5006 |    300 |
++------+--------+--------+-------+-------------+--------+
+1 row in set (0.00 sec)
+
+mysql> select avg(points)from customerbackup;
++-------------+
+| avg(points) |
++-------------+
+|    180.0000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select *from customer order by points asc;
++------+--------+--------+-------+-------------+--------+
+| cid  | cname  | city   | grade | salesman_id | points |
++------+--------+--------+-------+-------------+--------+
+| 3001 | Vishal | pune   | A     |        5001 |    100 |
+| 3005 | Kushal | Kerala | B     |        5003 |    100 |
+| 3002 | Mohini | Mumbai | A     |        5005 |    200 |
+| 3003 | Rishab | Surat  | B     |        5002 |    200 |
+| 3004 | Sakshi | Kanpur | A     |        5006 |    300 |
++------+--------+--------+-------+-------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select *from customer order by points desc;
++------+--------+--------+-------+-------------+--------+
+| cid  | cname  | city   | grade | salesman_id | points |
++------+--------+--------+-------+-------------+--------+
+| 3004 | Sakshi | Kanpur | A     |        5006 |    300 |
+| 3002 | Mohini | Mumbai | A     |        5005 |    200 |
+| 3003 | Rishab | Surat  | B     |        5002 |    200 |
+| 3001 | Vishal | pune   | A     |        5001 |    100 |
+| 3005 | Kushal | Kerala | B     |        5003 |    100 |
++------+--------+--------+-------+-------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select cid,city,points from customer order by points desc;
++------+--------+--------+
+| cid  | city   | points |
++------+--------+--------+
+| 3004 | Kanpur |    300 |
+| 3002 | Mumbai |    200 |
+| 3003 | Surat  |    200 |
+| 3001 | pune   |    100 |
+| 3005 | Kerala |    100 |
++------+--------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select cid,city,points from customer order by points asc;
++------+--------+--------+
+| cid  | city   | points |
++------+--------+--------+
+| 3001 | pune   |    100 |
+| 3005 | Kerala |    100 |
+| 3002 | Mumbai |    200 |
+| 3003 | Surat  |    200 |
+| 3004 | Kanpur |    300 |
++------+--------+--------+
+5 rows in set (0.00 sec)
